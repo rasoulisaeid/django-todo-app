@@ -1,4 +1,3 @@
-# to-do-app
 # Django Todo App
 
 ![Alt text](demo/demo.jpeg)
