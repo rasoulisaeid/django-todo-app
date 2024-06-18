@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid card">
+    <form action="{% url 'tasks:create' %}" method="POST" class="task-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="text" name="title" placeholder="Enter a new task" required>
+        <button type="submit">Add</button>
+    </form>
+
+    {% for task in tasks %}
+        <div class="task {% if task.status %}completed{% else %}incomplete{% endif %}">
+            <form class="status-form" data-task-id="{{ task.id }}">
+                {% csrf_token %}
+                <div class="task-content">
+                    <input type="checkbox" class="task-checkbox" {% if task.status %}checked{% endif %} data-task-id="{{ task.id }}">
+                    <span class="editable" contenteditable="true" data-task-id="{{ task.id }}">{{ task.title }}</span>
+                </div>
+            </form>
+            
+            <div class="task-actions">
+                <form action="{% url 'tasks:delete' pk=task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="delete">Delete</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'tasks/js/scripts.js' %}"></script>
+{% endblock %}

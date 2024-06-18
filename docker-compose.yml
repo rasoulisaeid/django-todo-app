@@ -1,0 +1,22 @@
+version: "3.9"  # Docker Compose file format version.
+
+services:  # Services to be managed.
+
+  backend:  # Name of the service.
+
+    build: .  # Build context for the Docker image.
+
+    container_name: todo_backend  # Name for the container.
+
+    command: python manage.py runserver 0.0.0.0:8000  # Command to run Django server.
+
+    volumes:
+      - ./core:/app  # Map local './core' to '/app' in the container.
+
+    ports:
+      - "8000:8000"  # Map host port 8000 to container port 8000.
+
+    environment:
+      - SECRET_KEY=${SECRET_KEY}  # Set SECRET_KEY from environment variable.
+      - DEBUG=${DEBUG}  # Set DEBUG from environment variable.
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}  # Set ALLOWED_HOSTS from environment variable.
