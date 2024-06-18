@@ -1,7 +1,7 @@
 # to-do-app
 # Django Todo App
 
-![Alt text](demo/demo.jpg)
+![Alt text](demo/demo.jpeg)
 
 
 This is a simple todo application built with Django.
